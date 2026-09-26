@@ -1,8 +1,16 @@
 @import url('https://googleapis.com');
 
 $font-primary: 'Poppins', sans-serif;
-$color-dark: #3F3F40;
-$color-blue: #2B6CB0;
-$color-yellow: #FFCC00;
+
+// Cores Oficiais do Layout
+$color-primary-blue: #3019B2; // Azul dos destaques do topo
+$color-blue-btn: #3442B5; // Azul dos botões "COMPRAR"
+$color-yellow: #FFC516; // Amarelo dos botões "Ver produto" e "Confira"
+$color-dark-text: #3F3F40; // Texto principal
+$color-light-text: #9F9F9F; // Preço riscado e textos secundários
+$color-newsletter-bg: #1E1E3F; // Fundo escuro do newsletter
+$color-footer-bg: #F6F6F6; // Fundo do rodapé
 $color-white: #FFFFFF;
-$color-border: #E2E8F0;
+$color-border-card: #EAEAEA;
+
+$max-width: 1280px;
