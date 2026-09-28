@@ -19,350 +19,651 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+// Visível apenas para leitores de tela (rótulos de inputs, SEO/acessibilidade)
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+// Container 1280px alinhado a x=80 no viewport de 1440px (conforme o PDF)
 .container {
     width: 100%;
     max-width: $max-width;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0;
 }
 
-// HEADER
+// HEADER COMPLETO (topo 32px + 1px + 72px + menu 40px = 144px, estático no fluxo)
 .main-header {
+    width: 100%;
+    background-color: $color-white;
+    display: flex;
+    flex-direction: column;
+    position: static;
+
+    // 1. TOP BAR: mensagens agrupadas e centralizadas
     .top-bar {
-        border-bottom: 1px solid #E5E5E5;
-        padding: 8px 0;
+        height: 32px;
+        flex-shrink: 0;
+        background-color: $color-white;
         font-size: 12px;
+        line-height: 1;
         color: $color-light-text;
 
         .top-bar-content {
             display: flex;
-            justify-content: space-between;
+            align-items: center;
+            justify-content: center;
+            gap: 119px;
+            height: 100%;
+            max-width: $max-width;
+            margin: 0 auto;
 
             span {
                 display: flex;
                 align-items: center;
-                gap: 6px;
+                gap: 9px;
+                height: 20px;
+                font-size: 12px;
+                font-weight: 500;
+                white-space: nowrap;
+                color: $color-light-text;
+
+                svg {
+                    width: 20px;
+                    height: 20px;
+                    flex-shrink: 0;
+                }
+
+                img {
+                    width: 20px;
+                    height: 20px;
+                    flex-shrink: 0;
+                }
 
                 strong {
                     color: $color-primary-blue;
+                    font-weight: 600;
                 }
             }
         }
     }
 
+    // 2. HEADER MIDDLE: logo, busca e ícones secundários
     .header-middle {
+        height: 72px;
+        flex-shrink: 0;
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        padding: 24px 0;
+        background-color: $color-white;
+        position: relative;
+
+        // Divisória do topo (x=80..1360)
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #F0F0F0;
+        }
 
         .brand-logo {
             display: flex;
             align-items: center;
-            gap: 8px;
+            flex-shrink: 0;
         }
 
         .logo-img {
-            height: 42px;
-            width: auto;
+            width: 139px;
+            height: 41.3px;
             display: block;
         }
 
+        // 630x48 em x=405 (80 + 139 + 186)
         .search-box {
-            width: 100%;
-            max-width: 600px;
+            flex: 0 1 630px;
+            width: 630px;
+            max-width: 630px;
+            min-width: 0;
+            margin-left: 186px;
             position: relative;
 
             input {
                 width: 100%;
-                background-color: #F6F6F6;
+                height: 48px;
+                background-color: #F6F5F2;
                 border: none;
                 border-radius: 10px;
-                padding: 12px 20px;
+                padding: 0 52px 0 16px;
+                font-family: $font-primary;
                 font-size: 14px;
+                color: $color-dark-text;
                 outline: none;
+
+                &::placeholder {
+                    color: $color-light-text;
+                }
             }
 
             .search-icon {
                 position: absolute;
-                right: 20px;
+                right: 33px;
                 top: 50%;
                 transform: translateY(-50%);
                 color: $color-light-text;
+                pointer-events: none;
             }
         }
 
         .header-icons {
             display: flex;
-            gap: 24px;
+            align-items: center;
+            gap: 32px;
+            height: 32px;
+            margin-left: auto;
+            flex-shrink: 0;
+
+            a {
+                display: flex;
+                align-items: center;
+                line-height: 0;
+            }
 
             img {
-                width: 24px;
-                height: 24px;
-                cursor: pointer;
+                width: 32px;
+                height: 32px;
+                object-fit: contain;
                 transition: opacity 0.2s;
 
-                &:hover {
-                    opacity: 0.7;
+                // Trofeu: asset nativo de 25px, 4px acima do centro dos demais
+                &:first-child {
+                    width: 25px;
+                    height: 25px;
+                    position: relative;
+                    left: 1px;
+                    top: -4px;
                 }
+            }
+
+            a:hover img {
+                opacity: 0.7;
             }
         }
     }
 
+    // 3. MAIN NAV: 40px, itens entre x=150 e x=1290
     .main-nav {
-        border-top: 1px solid #F0F0F0;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03);
+        width: 100%;
+        max-width: $max-width;
+        margin: 0 auto;
+        padding: 0;
+        height: 40px;
+        flex-shrink: 0;
+        background-color: $color-white;
+        box-shadow: 0px 8px 16px 0px #3930131F;
+        position: relative;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #F0F0F0;
+        }
 
         .nav-links {
+            width: 100%;
+            max-width: none;
+            padding: 0 70px;
             display: flex;
-            justify-content: flex-start;
-            gap: 8px;
-            padding: 12px 0;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            gap: 0;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 500;
             color: $color-light-text;
 
             a {
                 display: flex;
                 align-items: center;
                 gap: 6px;
-                background-color: #F7F7F7;
-                border: 1px solid #EDEDED;
-                border-radius: 6px;
-                padding: 8px 14px;
-                box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.02);
-                transition: all 0.2s;
+                background-color: transparent;
+                border: none;
+                border-radius: 0;
+                padding: 0;
+                line-height: 20px;
+                white-space: nowrap;
+                box-shadow: none;
+                color: $color-light-text;
+                font-size: 12px;
+                font-weight: 500;
+                text-transform: uppercase;
+                transition: color 0.2s;
 
                 .nav-icon {
                     width: 16px;
                     height: auto;
                 }
-            }
 
-            a:hover,
-            a.active {
-                color: $color-primary-blue;
+                &:hover {
+                    color: $color-primary-blue;
+                }
+
+                // Categoria ativa: "Ofertas do dia"
+                &.active {
+                    color: $color-primary-blue;
+                    font-weight: 600;
+                }
             }
         }
     }
 }
 
-// HERO BANNER
+// HERO BANNER (390px, gradiente 966x390 à esquerda, textos alinhados ao logo em x=80)
 .hero-banner {
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/image/bannerHome.jpg') no-repeat center/cover;
-    height: 400px;
+    position: relative;
+    height: 390px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    // 78px => topo do h1 em y=222 (144 do header + 78)
+    padding-top: 78px;
     color: $color-white;
+    background: url('/image/bannerHome.jpg') no-repeat center/cover;
+
+    // Caixa de escurecimento ocupando o banner inteiro (100% x 390), opacidade 0.8
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.8;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 85.04%);
+        pointer-events: none;
+    }
 
     .banner-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .banner-texts {
+        width: 822px;
+
         h1 {
-            font-size: 44px;
-            font-weight: 700;
-            line-height: 52px;
-            margin-bottom: 8px;
+            font-size: 48px;
+            font-weight: 600;
+            line-height: 50px;
+            margin-bottom: 18px;
         }
 
         p {
             font-size: 32px;
-            font-weight: 600;
-            margin-bottom: 24px;
+            font-weight: 400;
+            line-height: 48px;
+            margin-bottom: 41px;
+            white-space: nowrap;
+
+            // "50% Off" em destaque amarelo, restante em branco
+            strong {
+                color: $color-yellow;
+                font-weight: 700;
+            }
         }
 
         .yellow-btn {
+            width: 206px;
+            height: 50px;
             background-color: $color-yellow;
-            color: $color-dark-text;
+            color: $color-newsletter-bg;
             border: none;
-            padding: 12px 40px;
-            font-size: 14px;
-            font-weight: 700;
+            font-family: $font-primary;
+            font-size: 16px;
+            font-weight: 600;
             border-radius: 5px;
+            margin-left: 7px;
+            cursor: pointer;
         }
     }
 }
 
-// CATEGORIAS (Ícones com box branco e sombra leve)
+// CATEGORIAS (7 itens de 128px, grupo centralizado com gap 44px)
 .categories-container {
     display: flex;
-    justify-content: space-between;
-    padding: 40px 0;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 44px;
+    padding: 39px 0 37px;
+    // ajuste fino de alinhamento: -2px vertical, -1px horizontal (sem alterar o fluxo)
+    position: relative;
+    top: -2px;
+    left: -1px;
 
     .category-box {
+        width: 128px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 16px;
+        gap: 22px;
         cursor: pointer;
+        // reset de button nativo (mantém o pixel a pixel do layout)
+        background: none;
+        border: none;
+        padding: 0;
+        font-family: $font-primary;
 
         .icon-card {
-            width: 120px;
-            height: 120px;
-            background: $color-white;
+            width: 128px;
+            height: 128px;
+            background: #F4F4F4;
             border-radius: 10px;
+            box-shadow: 0px 4px 11px 0px rgba(0, 0, 0, 0.13);
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.05);
-            transition: all 0.2s;
+            transition: background 0.2s;
 
             img {
-                max-width: 64px;
-                max-height: 64px;
+                width: 61px;
+                height: 61px;
                 object-fit: contain;
             }
         }
 
         span {
             font-size: 14px;
+            line-height: 21px;
             font-weight: 500;
-            color: #4A4A4A;
+            color: #4E4E4E;
+            white-space: nowrap;
         }
 
         &:hover,
         &.active {
             span {
-                color: $color-blue-btn;
-                font-weight: 700;
+                color: $color-primary-blue;
+                font-weight: 600;
             }
+        }
 
-            .icon-card {
-                box-shadow: 0px 4px 20px rgba(52, 66, 181, 0.15);
-            }
+        // Primeira categoria (Tecnologia) com box branco
+        &.active .icon-card {
+            background: $color-white;
         }
     }
 }
 
-// TÍTULO DAS SEÇÕES
+// TÍTULO DAS SEÇÕES (30px/45px com réguas de 1px nas laterais)
 .section-title {
     display: flex;
-    align-items: center;
-    gap: 16px;
+    align-items: flex-start;
+    gap: 35px;
+    padding: 0 70px;
     text-align: center;
-    font-size: 26px;
+    font-size: 30px;
+    line-height: 45px;
     color: $color-blue-btn;
     font-weight: 700;
-    margin: 32px 0 16px;
+    margin: 60px 0 0;
 
     &::before,
     &::after {
         content: '';
         flex: 1;
-        height: 2px;
-        background-color: #EDEDED;
+        height: 1px;
+        // 18px => régua em y=852 quando o título começa em y=834
+        margin-top: 18px;
+        background-color: #DEDEDE;
     }
 
+    // "Ver todos" centralizado logo abaixo do título (4px abaixo da base do texto)
     &+.view-all {
         display: block;
         text-align: center;
         font-size: 15px;
+        line-height: 23px;
         font-weight: 700;
         color: $color-dark-text;
-        margin-bottom: 24px;
+        margin: 4px 0 14px;
     }
 }
 
-// VITRINE TABS (Celular, Acessórios, etc.)
+// VITRINE TABS (faixa de 6 células de 1px, fechando a caixa por completo)
 .vitrine-tabs {
-    display: flex;
-    justify-content: center;
-    border: 1px solid #E0E0E0;
-    width: max-content;
-    margin: 0 auto 32px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    height: 40px;
+    margin: 0 0 20px;
 
     button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         background: $color-white;
-        border: none;
-        border-right: 1px solid #E0E0E0;
-        padding: 12px 32px;
-        font-size: 13px;
-        font-weight: 600;
-        color: #4A4A4A;
+        border: 1px solid #BDBDBD;
+        // -1px => as células compartilham o mesmo separador vertical
+        margin-left: -1px;
+        padding: 0;
+        font-family: $font-primary;
+        font-size: 16px;
+        line-height: 16px;
+        font-weight: 400;
         text-transform: uppercase;
+        color: #3B3B3B;
+        cursor: pointer;
 
-        &:last-child {
-            border-right: none;
+        &:first-child {
+            margin-left: 0;
         }
 
         &:hover,
         &.active {
             color: $color-blue-btn;
-            background-color: #F9F9F9;
+            font-weight: 700;
         }
     }
 }
 
-// PARCEIROS (Dois cards horizontais lado a lado)
+// Título da VITRINE 2: abaixo da base do banner de parceiros
+.partners-section+.container:not(.brands-section) .section-title {
+    margin-top: 24px;
+}
+
+.partners-section+.container:not(.brands-section) .product-carousel,
+.partners-section+.container:not(.brands-section) .vitrine-skeletons {
+    margin-top: 26px;
+}
+
+// Título das marcas (linhas laterais invisíveis: mantém o texto centralizado)
+.partners-section+.container.brands-section .section-title {
+    margin-top: 24px;
+
+    &::before,
+    &::after {
+        visibility: hidden;
+    }
+}
+
+// VITRINE (carrossel com 4 produtos por página)
+.vitrine-last {
+    padding-bottom: 92px;
+
+    .section-title {
+        // +24px: alinha o topo dos cards da vitrine 3 com o raster (PDF y=3577)
+        margin-top: 94px;
+    }
+
+    .product-carousel,
+    .vitrine-skeletons {
+        margin-top: 26px;
+    }
+}
+
+.vitrine-skeletons {
+    display: grid;
+    grid-template-columns: repeat(4, 304px);
+    gap: 18px;
+    justify-content: center;
+}
+
+.vitrine-skeleton {
+    height: 500px;
+    background: linear-gradient(90deg, #F2F2F2 25%, #FAFAFA 37%, #F2F2F2 63%);
+    background-size: 400% 100%;
+    border-radius: 10px;
+    animation: skeleton-loading 1.4s ease infinite;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0 50%;
+    }
+}
+
+// PARCEIROS (dois banners de 634x350 com gradiente na base e textos no canto inferior esquerdo)
 .partners-section {
-    display: flex;
-    gap: 24px;
-    margin: 40px 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 13px;
+    margin-top: 45px;
+
+    // Segundo bloco: distância após os cards
+    &--gap {
+        margin-top: 46px;
+    }
 
     .partner-card {
-        flex: 1;
-        height: 280px;
-        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/image/bannerParceiros.jpg') no-repeat center/cover;
-        border-radius: 12px;
-        padding: 40px;
+        position: relative;
+        height: 350px;
+        // Cantos arredondados nos 4 cantos (medido no PDF: inset ~14px no topo
+        // e na base, raio de 20px)
+        border-radius: 20px;
+        overflow: hidden;
+        background-color: transparent;
+        color: $color-white;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-        color: $color-white;
+        // textos: h2 em y=114, subtexto em y=182, botão em y=262 (base a 40px do banner)
+        padding: 0 0 40px 44px;
+
+        // Foto do banner preenchendo os 634x350
+        &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 350px;
+            background: url('/image/bannerParceiros.jpg') no-repeat center center / cover;
+        }
+
+        // Gradiente de escurecimento na base (261px)
+        &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 261px;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 85.04%);
+            pointer-events: none;
+        }
+
+        h2,
+        p,
+        button {
+            position: relative;
+            z-index: 1;
+        }
 
         h2 {
-            font-size: 32px;
+            font-size: 40px;
+            line-height: 60px;
             font-weight: 700;
             margin-bottom: 8px;
         }
 
         p {
-            font-size: 14px;
-            max-width: 240px;
-            margin-bottom: 16px;
-            line-height: 20px;
+            font-size: 16px;
+            line-height: 24px;
+            max-width: 215px;
+            margin-bottom: 32px;
         }
 
         .confira-btn {
-            width: max-content;
+            width: 145px;
+            height: 48px;
             background-color: $color-yellow;
-            color: $color-dark-text;
+            color: $color-newsletter-bg;
             border: none;
-            padding: 10px 32px;
+            font-family: $font-primary;
+            font-size: 16px;
+            line-height: 16px;
             font-weight: 700;
-            border-radius: 5px;
+            letter-spacing: 8%;
             text-transform: uppercase;
+            border-radius: 6px;
+            cursor: pointer;
         }
     }
 }
 
-// NAVEGUE POR MARCAS
+// NAVEGUE POR MARCAS (5 círculos de 211px)
 .brands-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    margin: 32px 0 60px;
+    display: grid;
+    grid-template-columns: repeat(5, 211px);
+    column-gap: 42px;
+    justify-content: flex-start;
+    // 21px => primeiro círculo em x=101 (centro 206.5), idêntico ao raster
+    padding-left: 21px;
+    // 28px => mantém a altura total da seção após o título pasar de 36px para 45px
+    margin: 28px 0 0;
 
     .brand-circle {
-        width: 140px;
-        height: 140px;
+        width: 211px;
+        height: 211px;
         background: $color-white;
+        box-shadow: 0 7px 20px 0 rgba(0, 0, 0, 0.13);
         border-radius: 50%;
-        box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.06);
+        padding: 87px 47px;
         display: flex;
         justify-content: center;
         align-items: center;
+        gap: 10px;
+        overflow: hidden;
 
         img {
-            max-width: 80%;
+            width: 117px;
             height: auto;
+            object-fit: contain;
         }
     }
 }
 
-// NEWSLETTER
+// NEWSLETTER (1440x162)
 .newsletter-box {
     background-color: $color-newsletter-bg;
     color: $color-white;
-    padding: 40px 0;
+    // 34px de padding => 68 + 94.4 do conteúdo = 162
+    padding: 34px 0;
+    min-height: 162px;
 
     .newsletter-content {
         display: flex;
@@ -371,24 +672,26 @@ body {
 
         .newsletter-text {
             h3 {
-                font-size: 24px;
+                font-size: 32px;
+                line-height: 1.2;
                 font-weight: 600;
-                margin-bottom: 4px;
+                margin-bottom: 8px;
             }
 
             p {
-                font-size: 13px;
-                color: #BBB;
+                font-size: 16px;
+                line-height: 24px;
+                color: #D5D3E0;
             }
         }
 
         .newsletter-form {
             display: flex;
             align-items: flex-start;
-            gap: 12px;
+            gap: 8px;
 
             .newsletter-field {
-                width: 220px;
+                width: 233px;
                 display: flex;
                 flex-direction: column;
                 gap: 10px;
@@ -397,8 +700,7 @@ body {
             .newsletter-checkbox {
                 display: flex;
                 align-items: center;
-                gap: 8px;
-                width: calc(100% - 7px);
+                gap: 4px;
                 cursor: pointer;
 
                 input {
@@ -419,9 +721,10 @@ body {
                 }
 
                 .checkbox-text {
-                    font-size: 11px;
-                    color: #BBB;
+                    font-size: 14px;
+                    color: #D5D3E0;
                     line-height: 15px;
+                    white-space: nowrap;
                 }
 
                 input:checked+.checkbox-box {
@@ -430,99 +733,114 @@ body {
                 }
             }
 
+            // Campos de 233x42 com 1px #E7E7E7
             input {
-                padding: 12px 16px;
-                border-radius: 5px;
-                border: 1px solid #444;
-                background: transparent;
-                color: $color-white;
-                width: 220px;
+                width: 233px;
+                height: 42px;
+                padding: 12px 24px;
+                line-height: 16px;
+                border-radius: 8px;
+                border: 1px solid #E7E7E7;
+                background: $color-white;
+                color: $color-newsletter-bg;
+                font-family: $font-primary;
+                font-size: 16px;
                 outline: none;
 
                 &::placeholder {
-                    color: #888;
+                    color: #7D7A8C;
                 }
             }
 
             button {
+                width: 157px;
+                height: 41px;
                 background-color: $color-yellow;
                 color: $color-newsletter-bg;
                 border: none;
-                padding: 0 32px;
-                font-weight: 700;
+                font-family: $font-primary;
+                font-size: 16px;
+                font-weight: 600;
                 border-radius: 5px;
-                text-transform: uppercase;
+                cursor: pointer;
             }
         }
     }
 }
 
-// FOOTER
+// FOOTER (1440x282, padding 42px 80px, gap 90px)
 .main-footer {
     background-color: $color-footer-bg;
-    padding: 60px 0 20px;
+    // sem padding aqui: a faixa branca do copyright (.footer-bottom) encosta
+    // no fim do footer. O respiro de 42px fica só ao redor do conteúdo.
+    padding: 0;
+    min-height: 282px;
 
     .footer-links {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 40px;
+        display: grid;
+        grid-template-columns: 400px 190px 190px 1fr;
+        gap: 90px;
+        align-items: start;
+        padding: 42px 0;
 
         .footer-brand {
-            max-width: 240px;
+            width: 400px;
             padding-right: 40px;
-            border-right: 2px solid #EDEDED;
+            border-right: 1px solid #DCDCDC;
 
             .footer-logo {
-                height: 40px;
                 width: auto;
+                height: 49px;
                 display: block;
-                margin-bottom: 12px;
+                margin-bottom: 17px;
             }
 
             p {
-                font-size: 12px;
-                color: $color-light-text;
-                line-height: 18px;
-                margin-bottom: 16px;
+                font-size: 14px;
+                line-height: 1.5;
+                color: #4E4E4E;
             }
 
             .footer-social {
                 display: flex;
                 align-items: center;
-                gap: 16px;
+                gap: 26px;
+                margin-top: 27px;
+                list-style: none;
 
-                img {
-                    width: 24px;
-                    height: 24px;
-                    cursor: pointer;
+                a {
+                    display: flex;
+                    line-height: 0;
                     transition: opacity 0.2s;
 
                     &:hover {
                         opacity: 0.7;
                     }
                 }
+
+                img {
+                    width: 24px;
+                    height: 24px;
+                }
             }
         }
 
         .footer-column {
+            padding-top: 18px;
+
             h4 {
-                font-size: 14px;
-                font-weight: 700;
-                color: $color-dark-text;
-                margin-bottom: 16px;
-                text-transform: uppercase;
+                font-size: 16px;
+                line-height: 24px;
+                font-weight: 600;
+                color: #5E5E5E;
+                margin-bottom: 9px;
             }
 
             ul {
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-                font-size: 12px;
-                color: #F4F4F4;
-
-                a {
-                    color: #F4F4F4;
-                }
+                list-style: none;
+                font-size: 14px;
+                line-height: 32px;
+                color: $color-dark-text;
 
                 a:hover {
                     color: $color-blue-btn;
@@ -530,12 +848,195 @@ body {
             }
         }
     }
+}
 
-    .footer-bottom {
-        text-align: center;
-        font-size: 11px;
-        color: $color-light-text;
-        border-top: 1px solid #EAEAEA;
-        padding-top: 20px;
+// Faixa branca do copyright (1440x47)
+.footer-bottom {
+    background-color: $color-white;
+    min-height: 47px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 13px;
+    line-height: 18px;
+    color: $color-light-text;
+}
+
+// RESPONSIVO
+// O layout do PDF é de 1440px e é preservado integralmente até 1200px.
+// Abaixo disso os blocos fixos (busca de 630px, 7 categorias de 128px,
+// vitrine de 4x304px) encolhem para não gerar rolagem horizontal.
+@media (max-width: 1200px) {
+    .main-header {
+        .header-middle {
+            .search-box {
+                margin-left: 40px;
+            }
+        }
+
+        // padding lateral de 70px + itens com nowrap estouravam a largura
+        .nav-links {
+            padding: 0 20px;
+            gap: 20px;
+            overflow-x: auto;
+            scrollbar-width: none;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+        }
+    }
+
+    .categories-container {
+        gap: 20px;
+        flex-wrap: wrap;
+        padding-left: 16px;
+        padding-right: 16px;
+
+        .category-box {
+            width: 100px;
+
+            .icon-card {
+                width: 100px;
+                height: 100px;
+
+                img {
+                    width: 48px;
+                    height: 48px;
+                }
+            }
+
+            span {
+                font-size: 13px;
+            }
+        }
+    }
+
+    .vitrine-skeletons {
+        grid-template-columns: repeat(4, minmax(0, 304px));
+        padding: 0 16px;
+    }
+
+    // 5x211px + gaps = 1223px não cabem abaixo de 1200px: encolhem juntos
+    .brands-container {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        column-gap: 24px;
+        padding-left: 0;
+
+        .brand-circle {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            padding: 0;
+
+            img {
+                width: 55%;
+            }
+        }
+    }
+
+    .partners-section {
+        grid-template-columns: 1fr;
+    }
+
+    // 822px de texto fixo + "50% Off" em nowrap estouravam telas médias
+    .hero-banner .banner-texts {
+        width: 100%;
+        max-width: 822px;
+
+        p {
+            white-space: normal;
+        }
+    }
+
+    // 400 + 3x90 + 3x190 = 1510px fixos não cabem: colunas viram frações
+    // (seletor com o mesmo prefixo do original para vencer a especificidade)
+    .main-footer .footer-links {
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 32px;
+
+        .footer-brand {
+            width: auto;
+            padding-right: 24px;
+        }
+    }
+
+    .newsletter-content {
+        flex-direction: column;
+        gap: 24px;
+    }
+}
+
+@media (max-width: 640px) {
+    .main-header {
+        .top-bar-content {
+            gap: 16px;
+            overflow-x: auto;
+        }
+
+        .nav-links {
+            gap: 14px;
+            padding: 0 12px;
+        }
+
+        .header-middle {
+            .logo-img {
+                width: 100px;
+                height: auto;
+            }
+
+            .search-box {
+                flex: 1 1 auto;
+                width: auto;
+                margin-left: 16px;
+            }
+
+            .header-icons {
+                display: none;
+            }
+        }
+    }
+
+    .categories-container {
+        .category-box {
+            width: 84px;
+
+            .icon-card {
+                width: 84px;
+                height: 84px;
+            }
+        }
+    }
+
+    .section-title {
+        padding: 0 20px;
+        font-size: 22px;
+        line-height: 32px;
+    }
+
+    .hero-banner {
+        height: 300px;
+        padding-top: 48px;
+
+        .banner-texts {
+            width: 100%;
+
+            h1 {
+                font-size: 30px;
+                line-height: 36px;
+            }
+
+            p {
+                font-size: 20px;
+                line-height: 30px;
+                white-space: normal;
+            }
+        }
+    }
+
+    .main-footer .footer-links {
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
     }
 }

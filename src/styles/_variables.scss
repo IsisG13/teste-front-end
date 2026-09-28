@@ -1,16 +1,49 @@
-@import url('https://googleapis.com');
+// Poppins local (mesma fonte do PDF de referência)
+@font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: url('/fonts/Poppins-400.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-display: block;
+    src: url('/fonts/Poppins-400.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-display: block;
+    src: url('/fonts/Poppins-600.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 700;
+    font-display: block;
+    src: url('/fonts/Poppins-700.woff2') format('woff2');
+}
 
 $font-primary: 'Poppins', sans-serif;
 
 // Cores Oficiais do Layout
-$color-primary-blue: #3019B2; // Azul dos destaques do topo
-$color-blue-btn: #3442B5; // Azul dos botões "COMPRAR"
-$color-yellow: #FFC516; // Amarelo dos botões "Ver produto" e "Confira"
+$color-primary-blue: #3019B2; // Azul dos destaques do topo e do item ativo do menu
+$color-blue-btn: #3442B5; // Azul dos botões "Comprar" e dos títulos de seção
+$color-yellow: #F7CA11; // Amarelo dos botões "Ver produto", "Confira" e "Inscrever"
 $color-dark-text: #3F3F40; // Texto principal
-$color-light-text: #9F9F9F; // Preço riscado e textos secundários
-$color-newsletter-bg: #1E1E3F; // Fundo escuro do newsletter
-$color-footer-bg: #F6F6F6; // Fundo do rodapé
+$color-muted: #808080; // Preço antigo riscado
+$color-light-text: #9F9F9F; // Textos secundários e placeholders
+$color-newsletter-bg: #271C47; // Fundo escuro do newsletter
+$color-footer-bg: #F4F4F4; // Fundo do rodapé
 $color-white: #FFFFFF;
 $color-border-card: #EAEAEA;
 
 $max-width: 1280px;
+$header-height: 144px; // topo 32px + linha divisória 1px + logo/busca 72px + menu 40px
