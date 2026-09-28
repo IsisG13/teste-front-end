@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Product } from '../../types/product';
+import { formatCurrency } from '../../utils/format';
 import './ProductModal.scss';
 
 interface ProductModalProps {
@@ -10,16 +11,48 @@ interface ProductModalProps {
 export default function ProductModal({ product, onClose }: ProductModalProps) {
     const [quantidade, setQuantidade] = useState<number>(1);
 
-    const alterarQuantidade = (valor: number) => {
-        if (quantidade + valor >= 1) {
-            setQuantidade(quantidade + valor);
+    const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+    const alterarQuantidade = useCallback((valor: number) => {
+        setQuantidade((atual) => Math.max(1, atual + valor));
+    }, []);
+
+    const handleKeyDown = useCallback((e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+            onClose();
         }
-    };
+    }, [onClose]);
+
+    // Foco no botão de fechar ao abrir, Esc para fechar e trava da rolagem do fundo
+    useEffect(() => {
+        closeButtonRef.current?.focus();
+
+        const overflowAnterior = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.body.style.overflow = overflowAnterior;
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [handleKeyDown]);
 
     return (
         <div className="modal-overlay" onClick={onClose}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                <button className="modal-close" onClick={onClose} aria-label="Fechar modal">
+            <div
+                className="modal-content"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="modal-title"
+                onClick={(e) => e.stopPropagation()}
+            >
+                <button
+                    ref={closeButtonRef}
+                    type="button"
+                    className="modal-close"
+                    onClick={onClose}
+                    aria-label="Fechar modal"
+                >
                     &times;
                 </button>
 
@@ -31,10 +64,8 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                     <div className="modal-info">
                         {/* Bloco Superior: Título e Preço (Gap: 18px) */}
                         <div className="info-header-block">
-                            <h2 className="modal-title">{product.productName}</h2>
-                            <p className="modal-price">
-                                R$ {product.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                            </p>
+                            <h2 className="modal-title" id="modal-title">{product.productName}</h2>
+                            <p className="modal-price">{formatCurrency(product.price)}</p>
                         </div>
 
                         {/* Bloco do Meio: Descrição e Link (Gap: 12px) */}
@@ -54,18 +85,21 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                                     type="button"
                                     className="btn-qt"
                                     onClick={() => alterarQuantidade(-1)}
+                                    disabled={quantidade <= 1}
                                     aria-label="Diminuir quantidade"
                                 >
-                                    <span className="vector-minus"></span>
+                                    <span className="vector-minus" />
                                 </button>
-                                <span className="qt-number">{quantidade.toString().padStart(2, '0')}</span>
+                                <span className="qt-number" aria-live="polite" aria-label={`Quantidade: ${quantidade}`}>
+                                    {quantidade.toString().padStart(2, '0')}
+                                </span>
                                 <button
                                     type="button"
                                     className="btn-qt"
                                     onClick={() => alterarQuantidade(1)}
                                     aria-label="Aumentar quantidade"
                                 >
-                                    <span className="vector-plus"></span>
+                                    <span className="vector-plus" />
                                 </button>
                             </div>
 
