@@ -1,5 +1,5 @@
 @use 'sass:color';
-@import '../../styles/variables';
+@use '../../styles/variables' as *;
 
 .modal-overlay {
     position: fixed;
@@ -122,10 +122,14 @@
         margin: 0;
         letter-spacing: 0.05em;
         display: inline-block;
+        align-self: flex-start;
+    }
 
-        &:hover {
-            text-decoration: underline;
-        }
+    .modal-feedback {
+        font-size: 13px;
+        line-height: 18px;
+        font-weight: 500;
+        color: #2E7D32;
     }
 }
 

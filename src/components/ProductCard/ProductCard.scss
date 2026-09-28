@@ -1,5 +1,5 @@
 @use 'sass:color';
-@import '../../styles/variables';
+@use '../../styles/variables' as *;
 
 // Card 304x500 (x=85 + 322 de pitch, y=947)
 .product-card {

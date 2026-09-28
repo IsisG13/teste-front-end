@@ -9,7 +9,8 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, onOpenModal }: ProductCardProps) {
-    const price = Number(product.price);
+    // O JSON traz apenas `price`; os demais valores são derivados para a vitrine.
+    const price = Number(product.price) || 0;
     const oldPrice = price * 1.07;
     const installments = Math.max(1, Math.round(price / 10));
 
